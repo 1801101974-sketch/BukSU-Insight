@@ -1,0 +1,29 @@
+using UnityEngine;
+
+public class vPickupItem : MonoBehaviour
+{
+	private AudioSource _audioSource;
+
+	public AudioClip _audioClip;
+
+	public GameObject _particle;
+
+	private void Start()
+	{
+		_audioSource = GetComponent<AudioSource>();
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("Player"))
+		{
+			Renderer[] componentsInChildren = GetComponentsInChildren<Renderer>();
+			for (int i = 0; i < componentsInChildren.Length; i++)
+			{
+				componentsInChildren[i].enabled = false;
+			}
+			_audioSource.PlayOneShot(_audioClip);
+			Object.Destroy(base.gameObject, _audioClip.length);
+		}
+	}
+}
